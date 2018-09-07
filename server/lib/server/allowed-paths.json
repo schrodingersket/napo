@@ -1,0 +1,10 @@
+{
+  "description": [
+    "This file provides an array of paths which are to be allowed open access",
+    "to any user regardless of authentication level."
+  ],
+  "paths": {
+    "/user": "POST",
+    "/login": "POST"
+  }
+}

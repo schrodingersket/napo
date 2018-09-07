@@ -1,0 +1,9 @@
+{
+  "$id": "https://adigitaledge.com/user/password/reset/post.json",
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "title": "Password Reset",
+  "type": "object",
+  "properties": {
+  },
+  "additionalProperties": false
+}

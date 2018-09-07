@@ -1,0 +1,42 @@
+---
+version: '3'
+services:
+  client:
+    image: napo/client
+    build:
+      context: client
+    ports:
+      - 80:80
+  server:
+    image: napo/server
+    build:
+      context: server
+    ports:
+      - 3000:3000
+    environment:
+      NODE_LISTEN_PORT: 3000
+      SQL_CLIENT_TYPE: pg 
+      SQL_HOST: postgres
+      SQL_USER: napo
+      SQL_PASSWORD: napo
+      SQL_DB: napo
+    volumes:
+      - ./server/index.js:/www/index.js
+      - ./server/lib:/www/lib
+      - ./server/middleware:/www/middleware
+      - ./server/routes:/www/routes
+    command: 'node index.js'
+  postgres:
+    image: napo/postgres
+    build:
+      context: postgres
+    environment:
+      POSTGRES_USER: napo
+      POSTGRES_PASSWORD: napo
+      POSTGRES_DB: napo
+    ports:
+      - 5432:5432
+    volumes:
+      - postgres:/var/lib/postgresql/data
+volumes:
+  postgres:

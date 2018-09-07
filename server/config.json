@@ -1,0 +1,8 @@
+{
+  "port": 3000,
+  "bodyLimit": "100kb",
+  "corsHeaders": ["Link"],
+  "accessTokenLifetime": 1209600000,
+  "logLevel": "info",
+  "logFile": "/var/log/napo.log"
+}
