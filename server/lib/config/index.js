@@ -45,6 +45,11 @@ const config = {
   get accessTokenLifetime() {
     return process.env['ACCESS_TOKEN_LIFETIME'] ||
       configFile.accessTokenLifetime;
+  },
+
+  get validateUserIdAgainstToken() {
+    return process.env['VALIDATE_USER_ID_WITH_TOKEN'] ||
+      configFile.validateUserIdAgainstToken;
   }
 };
 

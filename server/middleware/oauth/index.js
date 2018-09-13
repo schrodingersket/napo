@@ -1,5 +1,6 @@
 'use strict';
 
 module.exports = {
-  authenticate: require('./authenticate')
+  authenticate: require('./authenticate'),
+  authorize: require('./authorize')
 };

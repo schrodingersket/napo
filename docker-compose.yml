@@ -25,6 +25,7 @@ services:
       - ./server/lib:/www/lib
       - ./server/middleware:/www/middleware
       - ./server/routes:/www/routes
+      - ./server/config.json:/www/config.json
     command: 'node index.js'
   postgres:
     image: napo/postgres

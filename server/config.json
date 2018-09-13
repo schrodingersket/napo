@@ -4,5 +4,6 @@
   "corsHeaders": ["Link"],
   "accessTokenLifetime": 1209600000,
   "logLevel": "info",
-  "logFile": "/var/log/napo.log"
+  "logFile": "/var/log/napo.log",
+  "validateUserIdAgainstToken": true
 }
