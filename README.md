@@ -105,9 +105,35 @@ and the application will do the rest!
 
 For instance, if you'd like to validate a `POST` body to `/api/v1/token/validate`,
 just insert your schema into `server/lib/validation/schema/token/validate/post.json`.
-The file path after `server/lib/validation/schema` is relative to `/api/v1`.
+The file path after `server/lib/validation/schema` is relative to `/api/v1`. Note
+that this file path is explicitly defined as the first argument when you 
+initialize the middleware. For example, taken from `./routes/user/password/index.js`:
 
-Note also that ALL `POST` and `PUT` requests with a content type of `application/json`
+```javascript
+'use strict';
+
+const express = require('express');
+const router = express.Router({mergeParams: true});
+
+const API = require('../../../lib/api');
+const middleware = require('../../../middleware');
+
+router.route('/reset')
+  .post(
+    middleware.validation('/user/password/reset'),
+    API.user.resetPassword
+  );
+
+router.route('/update')
+  .post(
+    middleware.validation('/user/password/update'),
+    API.user.updatePassword
+  );
+
+module.exports = router;
+```
+
+Note also that only `POST` and `PUT` requests with a content type of `application/json`
 are validated this way - so if you don't have the schema, your request will fail!
 I did this mostly to keep myself from being lazy with the creation of new routes.
 
