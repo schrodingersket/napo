@@ -5,6 +5,10 @@ const Promise = require('bluebird');
 const DB = require('../../../db');
 const logger = require('../../../logger');
 
+/**
+ * We refrain from using the application's usual HTTP exceptions, since our
+ * Node OAuth library handles responses.
+ */
 module.exports = {
 
   /**
@@ -41,7 +45,6 @@ module.exports = {
         })
         .catch((err) => {
 
-          console.log(err.stack);
           logger.log('error', err.stack);
           resolve(false);
         });
@@ -190,7 +193,8 @@ module.exports = {
           // Throw new error and resolve false
           //
           if (!user) {
-            throw new Error(`No user '${username}' could be found.`);
+            logger.log('error', `No user '${username}' could be found.`);
+            resolve(false);
           }
 
           // Check password hash
@@ -226,7 +230,8 @@ module.exports = {
           // Throw new error and resolve false
           //
           if (!client) {
-            throw new Error(`No client '${clientId}' could be found.`);
+            logger.log('error', `No client '${clientId}' could be found.`);
+            resolve(false);
           }
 
           // `redirect_uris` and `grants` are optional.

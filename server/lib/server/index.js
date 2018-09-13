@@ -50,18 +50,18 @@ class Server {
       extended: false
     }));
 
-    // Custom middleware
-    //
-    this._app.use(apiRoot, middleware.validation);
-
     // OAuth
     //
     this._app.use(apiRoot, middleware.unless(disabledOauthPaths,
-      middleware.oauth.authorize));
+      middleware.oauth.authenticate));
 
     // API routes
     //
     this._app.use(apiRoot, require('../../routes'));
+
+    // Error handling
+    //
+    this._app.use(apiRoot, middleware.error);
 
     this._initialized = true;
     logger.log('info', 'Server initialized');

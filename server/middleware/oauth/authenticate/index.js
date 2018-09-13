@@ -5,10 +5,10 @@ const Request = OAuthServer.Request;
 const Response = OAuthServer.Response;
 
 const API = require('../../../lib/api');
-const logger = require('../../../lib/logger');
 const http = require('../../../lib/util').http;
+const exception = require('../../../lib/exception');
 
-const authorize = (req, res, next) => {
+const authenticate = (req, res, next) => {
 
   const request = new Request(req);
   const response = new Response(res);
@@ -21,13 +21,9 @@ const authorize = (req, res, next) => {
       next();
     })
     .catch(function (err) {
-
-      const correlationId = logger.log('error', err.stack);
-
-      res.status(err.code || http.codes.INTERNAL_SERVER_ERROR)
-        .send(http.errorFormatter(correlationId,
-          'Received invalid token.'));
+      next(new exception.HttpError('Unable to authenticate.', err,
+        err.code || http.codes.INTERNAL_SERVER_ERROR));
     });
 };
 
-module.exports = authorize;
+module.exports = authenticate;

@@ -1,16 +1,23 @@
 'use strict';
 
+const express = require('express');
+const router = express.Router({mergeParams: true});
+
 const API = require('../../lib/api');
+const middleware = require('../../middleware');
+const passwordRoutes = require('./password');
 
-const mount = (router, auth) => {
-  router.route('/user/:userId')
-    .get(API.user.get)
-    .put(API.user.update);
+router.use('/:userId/password', passwordRoutes);
 
-  router.route('/user')
-    .post(API.user.add);
+// Add validation to all routes here
+//
+router.use(middleware.validation('/user'));
 
-  require('./password')(router);
-};
+router.route('/:userId')
+  .get(API.user.get)
+  .put(API.user.update);
 
-module.exports = mount;
+router.route('/')
+  .post(API.user.add);
+
+module.exports = router;

@@ -2,7 +2,6 @@
 const jsonschema = require('jsonschema');
 
 const v = new jsonschema.Validator();
-const pathParamReplaceRegex = /\/:[0-9a-zA-Z]+/gi;
 
 /**
  * We do some fun trickery here taking advantage of the fact that Node caches
@@ -18,8 +17,9 @@ const pathParamReplaceRegex = /\/:[0-9a-zA-Z]+/gi;
  * request), and `false` if not.
  *
  * @param req
+ * @param vPath
  */
-const validate = (req) => {
+const validate = (req, vPath) => {
 
   // First, check that we're dealing with JSON, and that we're not handling
   // anything that shouldn't have a request body (e.g., a GET).
@@ -29,14 +29,6 @@ const validate = (req) => {
     return {
       errors: []
     };
-  }
-
-  // Now, infer JSON schema path from the request, and validate:
-  //
-  let vPath = req.path.replace(pathParamReplaceRegex, '');
-
-  if (vPath.endsWith('/')) {
-    vPath = vPath.slice(0, -1);
   }
 
   let schema = require('./schema' + vPath + '/' + req.method.toLowerCase() +

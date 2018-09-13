@@ -8,5 +8,7 @@ All notable changes to this project will be documented in this file.
 - PostgreSQL
 - JSON Schema validation
 - Support for auth path exclusions
+- Added HttpError and associated handling
+- Added password change
 ### Changed
 ### Removed

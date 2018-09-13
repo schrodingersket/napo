@@ -5,7 +5,7 @@ const Request = OAuthServer.Request;
 const Response = OAuthServer.Response;
 
 const oauth = require('../server');
-const logger = require('../../../logger');
+const exception = require('../../../exception');
 const http = require('../../../util').http;
 
 const token = (req, res, next) => {
@@ -32,12 +32,8 @@ const token = (req, res, next) => {
       });
     })
     .catch(function (err) {
-
-      const correlationId = logger.log('error', err.stack);
-
-      res.status(err.code || http.codes.INTERNAL_SERVER_ERROR)
-        .send(http.errorFormatter(correlationId,
-          'Received invalid token.'));
+      next(new exception.HttpError('Received invalid token.',
+        err, err.code || http.codes.INTERNAL_SERVER_ERROR));
     });
 };
 
