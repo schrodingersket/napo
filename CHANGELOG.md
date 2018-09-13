@@ -10,5 +10,6 @@ All notable changes to this project will be documented in this file.
 - Support for auth path exclusions
 - Added HttpError and associated handling
 - Added password change
+- Added optional path restriction to a user's id 
 ### Changed
 ### Removed

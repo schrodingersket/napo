@@ -10,7 +10,6 @@ const exception = require('../../../../lib/exception');
  * @param req
  * @param res
  * @param next
- * @param userId
  */
 const authorize = (req, res, next) => {
 
