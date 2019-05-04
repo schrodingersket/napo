@@ -1,13 +1,13 @@
 CREATE TABLE IF NOT EXISTS users (
   id SERIAL PRIMARY KEY,
-  email VARCHAR(128) NOT NULL UNIQUE CHECK(email = lower(email)),
-  username VARCHAR(128) NOT NULL UNIQUE CHECK(username = lower(username)),
-  password VARCHAR(128) NOT NULL
+  email VARCHAR NOT NULL UNIQUE CHECK(email = lower(email)),
+  username VARCHAR NOT NULL UNIQUE CHECK(username = lower(username)),
+  password VARCHAR NOT NULL
 );
 
 CREATE TABLE IF NOT EXISTS oauth_clients (
   id SERIAL PRIMARY KEY,
-  client_id VARCHAR(128),
+  client_id VARCHAR,
   client_secret VARCHAR,
   client_name VARCHAR,
   access_token_lifetime INTEGER,
@@ -32,25 +32,25 @@ CREATE TABLE IF NOT EXISTS oauth_grants (
 
 CREATE TABLE IF NOT EXISTS oauth_tokens (
   id SERIAL PRIMARY KEY,
-  access_token VARCHAR(128),
+  access_token VARCHAR,
   expires_at TIMESTAMP DEFAULT NOW(),
-  scope VARCHAR(128),
-  refresh_token VARCHAR(128),
+  scope VARCHAR,
+  refresh_token VARCHAR,
   refresh_token_expires_at TIMESTAMP DEFAULT NOW(),
   user_id INTEGER NOT NULL REFERENCES users(id),
-  client_id VARCHAR(32) REFERENCES oauth_clients(client_id) DEFAULT '898d7b9c43c3b45e79008ae58098a484',
+  client_id VARCHAR REFERENCES oauth_clients(client_id) DEFAULT '898d7b9c43c3b45e79008ae58098a484',
 
   CONSTRAINT oauth_tokens_user_client_unique UNIQUE(user_id, client_id)
 );
 
 CREATE TABLE IF NOT EXISTS oauth_codes (
   id SERIAL PRIMARY KEY,
-  access_code VARCHAR(128),
+  access_code VARCHAR,
   expires_at TIMESTAMP DEFAULT NOW(),
-  scope VARCHAR(128),
-  redirect_uri VARCHAR(128),
+  scope VARCHAR,
+  redirect_uri VARCHAR,
   user_id INTEGER NOT NULL REFERENCES users(id),
-  client_id VARCHAR(32) REFERENCES oauth_clients(client_id) DEFAULT '898d7b9c43c3b45e79008ae58098a484',
+  client_id VARCHAR REFERENCES oauth_clients(client_id) DEFAULT '898d7b9c43c3b45e79008ae58098a484',
 
   CONSTRAINT oauth_codes_user_client_unique UNIQUE(user_id, client_id)
 );
